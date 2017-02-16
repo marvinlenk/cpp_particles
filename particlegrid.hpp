@@ -40,13 +40,17 @@ class Particle{
 private:
 	float _mass; //in kilograms
 	float _elasticity; // amout of velocity reduction at each wall hitting
+	float _size; //size for collision checks
 	Vector _position;
 	unsigned int _gridposition[3];
 	Vector _velocity;
+
+	void collision_check(const unsigned int (& gridsize)[3]);
+
 public:
-	Particle(float m=0, float el=1):_mass(m),_elasticity(el),_position(),_velocity(){};
-	Particle(Vector& x,Vector& v,float m=0, float el=1):
-		_mass(m),_elasticity(el),_position(x),_velocity(v)
+	Particle(float m=0, float el=1, float sz=1):_mass(m),_elasticity(el),_size(sz),_position(),_velocity(){};
+	Particle(Vector& x,Vector& v,float m=0, float el=1, float sz=1):
+		_mass(m),_elasticity(el),_size(sz),_position(x),_velocity(v)
 		{
 			_gridposition[0] = round(x.get_x());
 			_gridposition[1] = round(x.get_y());
@@ -54,12 +58,18 @@ public:
 		};
 
 	void set_mass(float);
+	void set_elasticity(float);
+	void set_size(float);
+	void set_coordinates(float,float,float);
 	void set_coordinates(float*);
 	void set_coordinates(Vector&);
 	void set_velocity(float*);
 	void set_velocity(Vector&);
 
+
 	float get_mass(void) const;
+	float get_elasticity(void) const;
+	float get_size(void) const;
 	// not shure if this is intelligent... check if set_x is working there?
 	const Vector * position(void);
 	const Vector * velocity(void);
